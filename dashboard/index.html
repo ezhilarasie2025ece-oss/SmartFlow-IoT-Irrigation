@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartFlow - IoT Irrigation Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🌱 SmartFlow</h1>
+        <p>Adaptive IoT Irrigation & Water Management System</p>
+    </header>
+
+    <main>
+
+        <section class="control-panel">
+            <h2>Field Monitoring</h2>
+
+            <label>Crop</label>
+            <select id="crop">
+                <option value="Tomato">Tomato</option>
+                <option value="Onion">Onion</option>
+                <option value="Chilli">Chilli</option>
+                <option value="Cotton">Cotton</option>
+            </select>
+
+            <label>Soil Moisture (%)</label>
+            <input type="range" id="soil" min="0" max="100" value="30">
+            <span id="soilValue">30%</span>
+
+            <label>Tank Level (%)</label>
+            <input type="range" id="tank" min="0" max="100" value="70">
+            <span id="tankValue">70%</span>
+
+            <label>Temperature (°C)</label>
+            <input type="number" id="temperature" value="32">
+
+            <label>Rain Probability (%)</label>
+            <input type="range" id="rain" min="0" max="100" value="20">
+            <span id="rainValue">20%</span>
+
+            <button onclick="analyzeIrrigation()">Analyze Irrigation</button>
+        </section>
+
+
+        <section class="dashboard">
+
+            <div class="card">
+                <h3>🌡️ Temperature</h3>
+                <p id="tempDisplay">32°C</p>
+            </div>
+
+            <div class="card">
+                <h3>💧 Soil Moisture</h3>
+                <p id="soilDisplay">30%</p>
+            </div>
+
+            <div class="card">
+                <h3>🚰 Tank Level</h3>
+                <p id="tankDisplay">70%</p>
+            </div>
+
+            <div class="card">
+                <h3>🌧️ Rain Probability</h3>
+                <p id="rainDisplay">20%</p>
+            </div>
+
+        </section>
+
+
+        <section class="recommendation">
+
+            <h2>SmartFlow Recommendation</h2>
+
+            <div id="recommendation">
+                Click "Analyze Irrigation" to get a recommendation.
+            </div>
+
+            <div id="reason"></div>
+
+            <div id="waterAmount"></div>
+
+        </section>
+
+
+        <section class="pump-control">
+
+            <h2>💧 Pump Control</h2>
+
+            <p>Status: <strong id="pumpStatus">OFF</strong></p>
+
+            <button id="onButton" onclick="turnPumpOn()">
+                Turn ON Pump
+            </button>
+
+            <button onclick="turnPumpOff()">
+                Turn OFF Pump
+            </button>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>SmartFlow | IoT Irrigation Management System</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
