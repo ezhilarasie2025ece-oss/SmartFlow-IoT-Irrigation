@@ -3,118 +3,507 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartFlow - IoT Irrigation Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>SmartFlow | Adaptive IoT Irrigation</title>
+
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
 
-    <header>
-        <h1>🌱 SmartFlow</h1>
-        <p>Adaptive IoT Irrigation & Water Management System</p>
+    <!-- HERO HEADER -->
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <div class="brand-icon">💧</div>
+
+            <div>
+                <h1>Smart<span>Flow</span></h1>
+
+                <p>
+                    Adaptive IoT Irrigation & Water Management System
+                </p>
+            </div>
+
+        </div>
+
+        <div class="hero-message">
+            🌾 Healthy Crops
+            <br>
+            <span>Brighter Tomorrow</span>
+        </div>
+
     </header>
+
 
     <main>
 
-        <section class="control-panel">
-            <h2>Field Monitoring</h2>
+        <!-- FIELD MONITORING -->
+        <section class="monitor-panel">
 
-            <label>Crop</label>
-            <select id="crop">
-    <option value="Tomato">Tomato</option>
-    <option value="Onion">Onion</option>
-    <option value="Chilli">Chilli</option>
-    <option value="Cotton">Cotton</option>
-    <option value="Sugarcane">Sugarcane</option>
-    <option value="Groundnut">Groundnut</option>
-    <option value="Maize">Maize</option>
-    <option value="Sorghum">Sorghum</option>
-    <option value="Rice">Rice</option>
-    <option value="Wheat">Wheat</option>
-    <option value="Ragi">Ragi</option>
-    <option value="Pearl Millet">Pearl Millet</option>
-</select>
+            <div class="section-heading">
 
-            <label>Soil Moisture (%)</label>
-            <input type="range" id="soil" min="0" max="100" value="30">
-            <span id="soilValue">30%</span>
+                <div>
+                    <span class="leaf">🌿</span>
 
-            <label>Tank Level (%)</label>
-            <input type="range" id="tank" min="0" max="100" value="70">
-            <span id="tankValue">70%</span>
+                    <div>
+                        <h2>Field Monitoring</h2>
+                        <p>Real-time agricultural condition analysis</p>
+                    </div>
+                </div>
 
-            <label>Temperature (°C)</label>
-            <input type="number" id="temperature" value="32">
+                <div class="live-badge">
+                    <span></span>
+                    LIVE DATA 📡
+                </div>
 
-            <label>Rain Probability (%)</label>
-            <input type="range" id="rain" min="0" max="100" value="20">
-            <span id="rainValue">20%</span>
+            </div>
 
-            <button onclick="analyzeIrrigation()">Analyze Irrigation</button>
+
+            <!-- CROP -->
+            <div class="field-row crop-row">
+
+                <div class="field-icon green-icon">
+                    🌱
+                </div>
+
+                <div class="field-input">
+
+                    <label>Crop</label>
+
+                    <select id="crop">
+
+                        <option value="Tomato">🍅 Tomato</option>
+                        <option value="Onion">🧅 Onion</option>
+                        <option value="Chilli">🌶️ Chilli</option>
+                        <option value="Cotton">🌿 Cotton</option>
+                        <option value="Sugarcane">🎋 Sugarcane</option>
+                        <option value="Groundnut">🥜 Groundnut</option>
+                        <option value="Maize">🌽 Maize</option>
+                        <option value="Sorghum">🌾 Sorghum</option>
+                        <option value="Rice">🌾 Rice</option>
+                        <option value="Wheat">🌾 Wheat</option>
+                        <option value="Ragi">🌾 Ragi</option>
+                        <option value="Pearl Millet">🌾 Pearl Millet</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- SOIL -->
+            <div class="sensor-row">
+
+                <div class="sensor-icon soil-icon">
+                    💧
+                </div>
+
+                <div class="sensor-content">
+
+                    <div class="sensor-title">
+                        <label>Soil Moisture (%)</label>
+                        <strong id="soilValue">30%</strong>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="soil"
+                        min="0"
+                        max="100"
+                        value="30"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- TANK -->
+            <div class="sensor-row">
+
+                <div class="sensor-icon tank-icon">
+                    🚰
+                </div>
+
+                <div class="sensor-content">
+
+                    <div class="sensor-title">
+                        <label>Tank Level (%)</label>
+                        <strong id="tankValue">70%</strong>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="tank"
+                        min="0"
+                        max="100"
+                        value="70"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- TEMPERATURE -->
+            <div class="sensor-row">
+
+                <div class="sensor-icon temp-icon">
+                    🌡️
+                </div>
+
+                <div class="sensor-content">
+
+                    <div class="sensor-title">
+
+                        <label>Temperature (°C)</label>
+
+                        <strong class="temp-value">
+                            °C
+                        </strong>
+
+                    </div>
+
+                    <input
+                        type="number"
+                        id="temperature"
+                        value="32"
+                        min="0"
+                        max="60"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- RAIN -->
+            <div class="sensor-row">
+
+                <div class="sensor-icon rain-icon">
+                    🌧️
+                </div>
+
+                <div class="sensor-content">
+
+                    <div class="sensor-title">
+
+                        <label>Rain Probability (%)</label>
+
+                        <strong id="rainValue">20%</strong>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="rain"
+                        min="0"
+                        max="100"
+                        value="20"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="analyze-btn"
+                onclick="analyzeIrrigation()"
+            >
+                📊 Analyze Irrigation
+                <span>→</span>
+            </button>
+
         </section>
 
 
+        <!-- SENSOR CARDS -->
         <section class="dashboard">
 
-            <div class="card">
-                <h3>🌡️ Temperature</h3>
-                <p id="tempDisplay">32°C</p>
+            <div class="metric-card temperature-card">
+
+                <div class="metric-icon">
+                    🌡️
+                </div>
+
+                <div>
+
+                    <h3>Temperature</h3>
+
+                    <p id="tempDisplay">32°C</p>
+
+                </div>
+
+                <div class="metric-decoration">
+                    ☀️
+                </div>
+
             </div>
 
-            <div class="card">
-                <h3>💧 Soil Moisture</h3>
-                <p id="soilDisplay">30%</p>
+
+            <div class="metric-card soil-card">
+
+                <div class="metric-icon">
+                    💧
+                </div>
+
+                <div>
+
+                    <h3>Soil Moisture</h3>
+
+                    <p id="soilDisplay">30%</p>
+
+                </div>
+
+                <div class="metric-decoration">
+                    🌱
+                </div>
+
             </div>
 
-            <div class="card">
-                <h3>🚰 Tank Level</h3>
-                <p id="tankDisplay">70%</p>
+
+            <div class="metric-card tank-card">
+
+                <div class="metric-icon">
+                    🚰
+                </div>
+
+                <div>
+
+                    <h3>Tank Level</h3>
+
+                    <p id="tankDisplay">70%</p>
+
+                </div>
+
+                <div class="metric-decoration">
+                    💦
+                </div>
+
             </div>
 
-            <div class="card">
-                <h3>🌧️ Rain Probability</h3>
-                <p id="rainDisplay">20%</p>
+
+            <div class="metric-card rain-card">
+
+                <div class="metric-icon">
+                    🌧️
+                </div>
+
+                <div>
+
+                    <h3>Rain Probability</h3>
+
+                    <p id="rainDisplay">20%</p>
+
+                </div>
+
+                <div class="metric-decoration">
+                    ☁️
+                </div>
+
             </div>
 
         </section>
 
 
-        <section class="recommendation">
+        <!-- RECOMMENDATION -->
+        <section class="recommendation-panel">
 
-            <h2>SmartFlow Recommendation</h2>
+            <div class="recommendation-title">
 
-            <div id="recommendation">
+                <div class="recommendation-logo">
+                    🌱
+                </div>
+
+                <div>
+                    <h2>SmartFlow Recommendation</h2>
+
+                    <p>
+                        Context-aware irrigation decision engine
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div
+                id="recommendation"
+                class="recommendation-main"
+            >
+                <span class="status-check">✓</span>
+
                 Click "Analyze Irrigation" to get a recommendation.
             </div>
 
-            <div id="reason"></div>
 
-            <div id="waterAmount"></div>
+            <div class="recommendation-grid">
+
+                <div class="info-box water-box">
+
+                    <div class="info-icon">
+                        💧
+                    </div>
+
+                    <div>
+
+                        <h3>Suggested Water Action</h3>
+
+                        <p id="waterAmount">
+                            —
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box reason-box">
+
+                    <div class="info-icon">
+                        🌿
+                    </div>
+
+                    <div>
+
+                        <h3>Why?</h3>
+
+                        <p id="reason">
+                            —
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </section>
 
 
-        <section class="pump-control">
+        <!-- PUMP CONTROL -->
+        <section class="pump-panel">
 
-            <h2>💧 Pump Control</h2>
+            <div class="pump-left">
 
-            <p>Status: <strong id="pumpStatus">OFF</strong></p>
+                <div class="pump-icon">
+                    💧
+                </div>
 
-            <button id="onButton" onclick="turnPumpOn()">
-                Turn ON Pump
-            </button>
+                <div>
 
-            <button onclick="turnPumpOff()">
-                Turn OFF Pump
-            </button>
+                    <h2>Pump Control</h2>
+
+                    <p>
+                        Manual user-confirmed irrigation control
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="pump-status">
+
+                <span>Status:</span>
+
+                <strong id="pumpStatus">
+                    OFF
+                </strong>
+
+            </div>
+
+
+            <div class="pump-buttons">
+
+                <button
+                    id="onButton"
+                    class="pump-on"
+                    onclick="turnPumpOn()"
+                >
+                    ⚡ Turn ON Pump
+                </button>
+
+                <button
+                    class="pump-off"
+                    onclick="turnPumpOff()"
+                >
+                    ⏹ Turn OFF Pump
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- SYSTEM FLOW -->
+        <section class="system-flow">
+
+            <h2>⚙️ SmartFlow Decision Process</h2>
+
+            <div class="flow-container">
+
+                <div class="flow-step">
+                    <span>🌱</span>
+                    <strong>Sensor Data</strong>
+                    <small>Soil • Tank • Temp</small>
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-step">
+                    <span>🧠</span>
+                    <strong>Decision Engine</strong>
+                    <small>Crop + Weather Analysis</small>
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-step">
+                    <span>💡</span>
+                    <strong>Recommendation</strong>
+                    <small>Smart Irrigation Advice</small>
+                </div>
+
+                <div class="flow-arrow">→</div>
+
+                <div class="flow-step">
+                    <span>🚰</span>
+                    <strong>User Control</strong>
+                    <small>Manual Pump ON/OFF</small>
+                </div>
+
+            </div>
 
         </section>
 
     </main>
 
+
+    <!-- FOOTER -->
     <footer>
-        <p>SmartFlow | IoT Irrigation Management System</p>
+
+        <div>
+            🌿 SmartFlow
+        </div>
+
+        <span>•</span>
+
+        <div>
+            Sustainable Farming
+        </div>
+
+        <span>•</span>
+
+        <div>
+            Smarter Future
+        </div>
+
     </footer>
+
 
     <script src="script.js"></script>
 
