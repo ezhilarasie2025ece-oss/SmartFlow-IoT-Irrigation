@@ -1218,3 +1218,42 @@ footer {
     transform: translateY(-1px);
     opacity: 0.9;
 }
+
+/* =========================================
+   WATER SAVING ANALYTICS
+========================================= */
+
+.water-saving-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 20px 0;
+    padding: 22px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ecfeff, #f0fdf4);
+    border: 1px solid #bae6fd;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.saving-icon {
+    font-size: 42px;
+}
+
+.saving-content h2 {
+    margin: 0 0 5px;
+}
+
+.saving-content p {
+    margin: 0 0 12px;
+    color: #64748b;
+}
+
+.saving-value {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.saving-content span {
+    font-size: 13px;
+    color: #64748b;
+}
