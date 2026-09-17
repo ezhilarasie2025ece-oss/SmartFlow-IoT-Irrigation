@@ -1,550 +1,182 @@
-const cropProfiles = {
-    Tomato: { threshold: 40 },
-    Onion: { threshold: 45 },
-    Chilli: { threshold: 35 },
-    Cotton: { threshold: 30 },
-    Sugarcane: { threshold: 50 },
-    Groundnut: { threshold: 40 },
-    Maize: { threshold: 40 },
-    Sorghum: { threshold: 35 },
-    Rice: { threshold: 50 },
-    Wheat: { threshold: 40 },
-    Ragi: { threshold: 35 },
-    "Pearl Millet": { threshold: 35 }
+/* =========================================
+   SMARTFLOW TAMIL / ENGLISH LANGUAGE
+========================================= */
+
+let tamilMode = false;
+
+const translations = {
+    "Field Monitoring": "வயல் கண்காணிப்பு",
+    "Live Data": "நேரடி தரவு",
+    "Crop": "பயிர்",
+    "Soil Moisture (%)": "மண் ஈரப்பதம் (%)",
+    "Tank Level (%)": "தொட்டி நீர்மட்டம் (%)",
+    "Temperature (°C)": "வெப்பநிலை (°C)",
+    "Rain Probability (%)": "மழை வாய்ப்பு (%)",
+    "Analyze Irrigation": "நீர்ப்பாசனத்தை பகுப்பாய்வு செய்",
+
+    "Temperature": "வெப்பநிலை",
+    "Soil Moisture": "மண் ஈரப்பதம்",
+    "Tank Level": "தொட்டி நீர்மட்டம்",
+    "Rain Probability": "மழை வாய்ப்பு",
+
+    "SmartFlow Recommendation": "SmartFlow பரிந்துரை",
+    "Context-aware irrigation decision engine":
+        "சூழ்நிலைக்கு ஏற்ப நீர்ப்பாசன முடிவு அமைப்பு",
+
+    "Suggested Water Action": "பரிந்துரைக்கப்பட்ட நீர்ப்பாசன நடவடிக்கை",
+    "Why?": "ஏன்?",
+    "Pump Control": "பம்ப் கட்டுப்பாடு",
+    "Status:": "நிலை:",
+    "Turn ON Pump": "பம்பை ON செய்",
+    "Turn OFF Pump": "பம்பை OFF செய்",
+
+    "Irrigation History": "நீர்ப்பாசன வரலாறு",
+    "Recent irrigation decisions and pump activity":
+        "சமீபத்திய நீர்ப்பாசன முடிவுகள் மற்றும் பம்ப் செயல்பாடுகள்",
+
+    "System Flow": "சிஸ்டம் செயல்பாட்டு ஓட்டம்",
+
+    "No irrigation activity yet.":
+        "இன்னும் நீர்ப்பாசன செயல்பாடு இல்லை.",
+
+    "IRRIGATION RECOMMENDED":
+        "நீர்ப்பாசனம் பரிந்துரைக்கப்படுகிறது",
+
+    "NO WATER REQUIRED":
+        "தண்ணீர் தேவையில்லை",
+
+    "REFILL TANK":
+        "தொட்டியை நிரப்பவும்",
+
+    "WAIT — RAIN EXPECTED":
+        "காத்திருக்கவும் — மழை எதிர்பார்க்கப்படுகிறது",
+
+    "Water priority:": "தண்ணீர் முன்னுரிமை:",
+    "Recommended pump duration: approximately":
+        "பரிந்துரைக்கப்படும் பம்ப் நேரம் சுமார்",
+
+    "Recommended action: Refill the irrigation tank.":
+        "பரிந்துரைக்கப்படும் நடவடிக்கை: நீர்ப்பாசன தொட்டியை நிரப்பவும்.",
+
+    "Recommended irrigation duration: 0 minutes.":
+        "பரிந்துரைக்கப்படும் நீர்ப்பாசன நேரம்: 0 நிமிடங்கள்.",
+
+    "Recommended action: Recheck after the expected rainfall.":
+        "பரிந்துரைக்கப்படும் நடவடிக்கை: எதிர்பார்க்கப்படும் மழைக்குப் பிறகு மீண்டும் சரிபார்க்கவும்.",
+
+    "ANALYZED": "பகுப்பாய்வு செய்யப்பட்டது",
+
+    "Pump Turned ON": "பம்ப் ON செய்யப்பட்டது",
+    "No Water Required": "தண்ணீர் தேவையில்லை",
+    "Refill Tank": "தொட்டியை நிரப்பவும்",
+    "Rain Expected — Irrigation Postponed":
+        "மழை எதிர்பார்ப்பு — நீர்ப்பாசனம் ஒத்திவைக்கப்பட்டது",
+    "Irrigation Recommended":
+        "நீர்ப்பாசனம் பரிந்துரைக்கப்பட்டது"
 };
 
 
 /* =========================================
-   SMARTFLOW IRRIGATION ANALYSIS
+   TRANSLATE PAGE TEXT
 ========================================= */
 
-function analyzeIrrigation() {
+function translatePage() {
 
-    const crop = document.getElementById("crop").value;
-    const soil = Number(document.getElementById("soil").value);
-    const tank = Number(document.getElementById("tank").value);
-    const temperature = Number(
-        document.getElementById("temperature").value
+    const elements = document.querySelectorAll(
+        "main h1, main h2, main h3, main h4, main p, main label, main button, main span, main div"
     );
-    const rain = Number(document.getElementById("rain").value);
 
-    const threshold = cropProfiles[crop].threshold;
+    elements.forEach(function(element) {
 
+        if (element.children.length > 0) {
+            return;
+        }
 
-    /* =========================================
-       UPDATE DASHBOARD VALUES
-    ========================================= */
+        const englishText =
+            element.dataset.englishText ||
+            element.textContent.trim();
 
-    document.getElementById("soilValue").textContent =
-        soil + "%";
+        if (!englishText) {
+            return;
+        }
 
-    document.getElementById("tankValue").textContent =
-        tank + "%";
+        element.dataset.englishText = englishText;
 
-    document.getElementById("rainValue").textContent =
-        rain + "%";
-
-    document.getElementById("soilDisplay").textContent =
-        soil + "%";
-
-    document.getElementById("tankDisplay").textContent =
-        tank + "%";
-
-    document.getElementById("rainDisplay").textContent =
-        rain + "%";
-
-    document.getElementById("tempDisplay").textContent =
-        temperature + "°C";
+        if (tamilMode && translations[englishText]) {
+            element.textContent =
+                translations[englishText];
+        } else if (!tamilMode) {
+            element.textContent =
+                englishText;
+        }
+    });
 
 
-    const recommendation =
-        document.getElementById("recommendation");
+    /* Translate dropdown options */
 
-    const reason =
-        document.getElementById("reason");
+    const options =
+        document.querySelectorAll("#crop option");
 
-    const waterAmount =
-        document.getElementById("waterAmount");
+    options.forEach(function(option) {
 
+        const englishText =
+            option.dataset.englishText ||
+            option.textContent.trim();
 
-    /* =========================================
-       CASE 1 — TANK VERY LOW
-    ========================================= */
+        option.dataset.englishText = englishText;
 
-    if (tank <= 10) {
+        if (tamilMode) {
 
-        recommendation.innerHTML =
-            `<span class="status-check">!</span>
-             🚨 REFILL TANK`;
+            const cropTranslations = {
+                "Tomato": "தக்காளி",
+                "Onion": "வெங்காயம்",
+                "Chilli": "மிளகாய்",
+                "Cotton": "பருத்தி",
+                "Sugarcane": "கரும்பு",
+                "Groundnut": "நிலக்கடலை",
+                "Maize": "மக்காச்சோளம்",
+                "Sorghum": "சோளம்",
+                "Rice": "நெல்",
+                "Wheat": "கோதுமை",
+                "Ragi": "கேழ்வரகு",
+                "Pearl Millet": "கம்பு"
+            };
 
-        reason.textContent =
-            "Tank level is critically low. Pump operation is blocked to prevent dry running.";
+            if (cropTranslations[englishText]) {
+                option.textContent =
+                    cropTranslations[englishText];
+            }
 
-        waterAmount.textContent =
-            "Recommended action: Refill the irrigation tank.";
+        } else {
 
-        recommendation.style.borderLeftColor =
-            "#dc2626";
-
-        recommendation.style.background =
-            "linear-gradient(135deg, #fff1f2, #fee2e2)";
-
-        turnPumpOff();
-
-        addHistory(
-            "Refill Tank",
-            crop,
-            soil,
-            tank,
-            rain
-        );
-
-        return;
-    }
+            option.textContent =
+                englishText;
+        }
+    });
+}
 
 
-    /* =========================================
-       CASE 2 — SOIL MOISTURE SUFFICIENT
-    ========================================= */
+/* =========================================
+   LANGUAGE BUTTON
+========================================= */
 
-    if (soil >= threshold) {
+function toggleLanguage() {
 
-        recommendation.innerHTML =
-            `<span class="status-check">✓</span>
-             ✅ NO WATER REQUIRED`;
+    tamilMode = !tamilMode;
 
-        reason.textContent =
-            `${crop} soil moisture is ${soil}%. Target threshold is ${threshold}%.`;
+    const button =
+        document.getElementById("languageToggle");
 
-        waterAmount.textContent =
-            "Recommended irrigation duration: 0 minutes.";
+    if (tamilMode) {
 
-        recommendation.style.borderLeftColor =
-            "#16a34a";
-
-        recommendation.style.background =
-            "linear-gradient(135deg, #ecfdf5, #dcfce7)";
-
-        turnPumpOff();
-
-        addHistory(
-            "No Water Required",
-            crop,
-            soil,
-            tank,
-            rain
-        );
-
-        return;
-    }
-
-
-    /* =========================================
-       CASE 3 — HIGH RAIN PROBABILITY
-    ========================================= */
-
-    if (rain >= 70) {
-
-        recommendation.innerHTML =
-            `<span class="status-check">☔</span>
-             🌧️ WAIT — RAIN EXPECTED`;
-
-        reason.textContent =
-            `Soil moisture is ${soil}%, but rain probability is ${rain}%. Irrigation can be postponed to avoid unnecessary water usage.`;
-
-        waterAmount.textContent =
-            "Recommended action: Recheck after the expected rainfall.";
-
-        recommendation.style.borderLeftColor =
-            "#8b5cf6";
-
-        recommendation.style.background =
-            "linear-gradient(135deg, #f5f3ff, #ede9fe)";
-
-        turnPumpOff();
-
-        addHistory(
-            "Rain Expected — Irrigation Postponed",
-            crop,
-            soil,
-            tank,
-            rain
-        );
-
-        return;
-    }
-
-
-    /* =========================================
-       CASE 4 — IRRIGATION CALCULATION
-    ========================================= */
-
-    const dryness =
-        threshold - soil;
-
-    let duration;
-    let priority;
-
-
-    if (dryness >= 20) {
-
-        duration = 6;
-        priority = "HIGH";
-
-    } else if (dryness >= 10) {
-
-        duration = 4;
-        priority = "MEDIUM";
+        button.textContent =
+            "English";
 
     } else {
 
-        duration = 2;
-        priority = "LOW";
+        button.textContent =
+            "தமிழ்";
     }
 
-
-    /* =========================================
-       CASE 5 — IRRIGATION RECOMMENDED
-    ========================================= */
-
-    recommendation.innerHTML =
-        `<span class="status-check">✓</span>
-         💧 IRRIGATION RECOMMENDED`;
-
-    reason.textContent =
-        `Soil moisture is ${soil}%, which is below the ${crop} threshold of ${threshold}%. Rain probability is ${rain}%. Temperature is ${temperature}°C.`;
-
-    waterAmount.textContent =
-        `Water priority: ${priority} | Recommended pump duration: approximately ${duration} minutes.`;
-
-    recommendation.style.borderLeftColor =
-        "#0ea5e9";
-
-    recommendation.style.background =
-        "linear-gradient(135deg, #ecfeff, #eff6ff)";
-
-
-    /* Pump stays OFF until user manually turns it ON */
-
-    turnPumpOff();
-
-
-    addHistory(
-        "Irrigation Recommended",
-        crop,
-        soil,
-        tank,
-        rain
-    );
+    translatePage();
 }
-
-
-/* =========================================
-   PUMP ON
-========================================= */
-
-function turnPumpOn() {
-
-    const tank =
-        Number(document.getElementById("tank").value);
-
-    const soil =
-        Number(document.getElementById("soil").value);
-
-
-    /* Tank safety */
-
-    if (tank <= 10) {
-
-        alert(
-            "🚨 Pump cannot be turned ON.\n\nTank water level is too low."
-        );
-
-        turnPumpOff();
-
-        return;
-    }
-
-
-    /* Soil safety */
-
-    if (soil >= 80) {
-
-        alert(
-            "🌱 Pump is not recommended.\n\nSoil moisture is already high."
-        );
-
-        turnPumpOff();
-
-        return;
-    }
-
-
-    /* Turn pump ON */
-
-    const pumpStatus =
-        document.getElementById("pumpStatus");
-
-    pumpStatus.textContent =
-        "ON";
-
-    pumpStatus.style.background =
-        "#dcfce7";
-
-    pumpStatus.style.color =
-        "#15803d";
-
-
-    /* Add pump activity to history */
-
-    const crop =
-        document.getElementById("crop").value;
-
-    const tankLevel =
-        document.getElementById("tank").value;
-
-    const soilLevel =
-        document.getElementById("soil").value;
-
-    const rainLevel =
-        document.getElementById("rain").value;
-
-    addHistory(
-        "Pump Turned ON",
-        crop,
-        soilLevel,
-        tankLevel,
-        rainLevel
-    );
-}
-
-
-/* =========================================
-   PUMP OFF
-========================================= */
-
-function turnPumpOff() {
-
-    const pumpStatus =
-        document.getElementById("pumpStatus");
-
-    if (!pumpStatus) {
-        return;
-    }
-
-    pumpStatus.textContent =
-        "OFF";
-
-    pumpStatus.style.background =
-        "#fee2e2";
-
-    pumpStatus.style.color =
-        "#dc2626";
-}
-
-
-/* =========================================
-   IRRIGATION HISTORY
-========================================= */
-
-function addHistory(
-    status,
-    crop,
-    soil,
-    tank,
-    rain
-) {
-
-    const historyList =
-        document.getElementById("historyList");
-
-    if (!historyList) {
-        return;
-    }
-
-
-    /* Remove empty message */
-
-    const emptyMessage =
-        historyList.querySelector(".history-empty");
-
-    if (emptyMessage) {
-        emptyMessage.remove();
-    }
-
-
-    /* Create history item */
-
-    const historyItem =
-        document.createElement("div");
-
-    historyItem.className =
-        "history-item";
-
-
-    /* Current time */
-
-    const time =
-        new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-
-
-    historyItem.innerHTML = `
-        <div class="history-info">
-
-            <h3>${status}</h3>
-
-            <p>
-                ${crop} • Soil ${soil}% • Tank ${tank}% • Rain ${rain}%
-            </p>
-
-            <p>
-                Checked at ${time}
-            </p>
-
-        </div>
-
-        <div class="history-status">
-            ANALYZED
-        </div>
-    `;
-
-
-    /* Newest activity on top */
-
-    historyList.prepend(historyItem);
-}
-
-
-/* =========================================
-   LIVE SOIL SENSOR DISPLAY
-========================================= */
-
-function updateSoilDisplay() {
-
-    const soil =
-        document.getElementById("soil").value;
-
-    document.getElementById("soilValue").textContent =
-        soil + "%";
-
-    document.getElementById("soilDisplay").textContent =
-        soil + "%";
-}
-
-
-/* =========================================
-   LIVE TANK SENSOR DISPLAY
-========================================= */
-
-function updateTankDisplay() {
-
-    const tank =
-        document.getElementById("tank").value;
-
-    document.getElementById("tankValue").textContent =
-        tank + "%";
-
-    document.getElementById("tankDisplay").textContent =
-        tank + "%";
-}
-
-
-/* =========================================
-   LIVE RAIN SENSOR DISPLAY
-========================================= */
-
-function updateRainDisplay() {
-
-    const rain =
-        document.getElementById("rain").value;
-
-    document.getElementById("rainValue").textContent =
-        rain + "%";
-
-    document.getElementById("rainDisplay").textContent =
-        rain + "%";
-}
-
-
-/* =========================================
-   LIVE TEMPERATURE DISPLAY
-========================================= */
-
-function updateTemperatureDisplay() {
-
-    const temperature =
-        document.getElementById("temperature").value;
-
-    document.getElementById("tempDisplay").textContent =
-        temperature + "°C";
-}
-
-
-/* =========================================
-   PAGE LOAD
-========================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const soil =
-            document.getElementById("soil");
-
-        const tank =
-            document.getElementById("tank");
-
-        const rain =
-            document.getElementById("rain");
-
-        const temperature =
-            document.getElementById("temperature");
-
-
-        if (soil) {
-            soil.addEventListener(
-                "input",
-                updateSoilDisplay
-            );
-        }
-
-
-        if (tank) {
-            tank.addEventListener(
-                "input",
-                updateTankDisplay
-            );
-        }
-
-
-        if (rain) {
-            rain.addEventListener(
-                "input",
-                updateRainDisplay
-            );
-        }
-
-
-        if (temperature) {
-            temperature.addEventListener(
-                "input",
-                updateTemperatureDisplay
-            );
-        }
-
-
-        /* Initial values */
-
-        updateSoilDisplay();
-        updateTankDisplay();
-        updateRainDisplay();
-        updateTemperatureDisplay();
-
-    }
-);
-
-
-
