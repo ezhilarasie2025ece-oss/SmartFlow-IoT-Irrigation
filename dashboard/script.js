@@ -10,6 +10,30 @@ const cropProfiles = {
     },
     Cotton: {
         threshold: 30
+    },
+    Sugarcane: {
+        threshold: 50
+    },
+    Groundnut: {
+        threshold: 40
+    },
+    Maize: {
+        threshold: 40
+    },
+    Sorghum: {
+        threshold: 35
+    },
+    Rice: {
+        threshold: 50
+    },
+    Wheat: {
+        threshold: 40
+    },
+    Ragi: {
+        threshold: 35
+    },
+    "Pearl Millet": {
+        threshold: 35
     }
 };
 
