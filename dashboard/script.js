@@ -659,6 +659,7 @@ addHistory(
 /* Estimated water saving for avoided/optimized irrigation */
 
 updateWaterSaving(40);
+}
 
 
 /* =========================================
