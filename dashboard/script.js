@@ -14,18 +14,31 @@ const cropProfiles = {
 };
 
 
+/* =========================================
+   SMARTFLOW IRRIGATION ANALYSIS
+========================================= */
+
 function analyzeIrrigation() {
 
-    const crop = document.getElementById("crop").value;
-    const soil = Number(document.getElementById("soil").value);
-    const tank = Number(document.getElementById("tank").value);
-    const temperature =
-        Number(document.getElementById("temperature").value);
-    const rain = Number(document.getElementById("rain").value);
+    const cropElement = document.getElementById("crop");
+    const soilElement = document.getElementById("soil");
+    const tankElement = document.getElementById("tank");
+    const temperatureElement = document.getElementById("temperature");
+    const rainElement = document.getElementById("rain");
+
+    const crop = cropElement.value;
+    const soil = Number(soilElement.value);
+    const tank = Number(tankElement.value);
+    const temperature = Number(temperatureElement.value);
+    const rain = Number(rainElement.value);
 
     const threshold = cropProfiles[crop].threshold;
 
-    // Update dashboard values
+
+    /* =========================================
+       UPDATE SENSOR VALUES
+    ========================================= */
+
     document.getElementById("soilValue").textContent =
         soil + "%";
 
@@ -58,9 +71,9 @@ function analyzeIrrigation() {
         document.getElementById("waterAmount");
 
 
-    /* =========================
-       TANK SAFETY
-    ========================= */
+    /* =========================================
+       CASE 1 — TANK EMPTY / VERY LOW
+    ========================================= */
 
     if (tank <= 10) {
 
@@ -74,7 +87,9 @@ function analyzeIrrigation() {
         waterAmount.textContent =
             "Recommended action: Refill the irrigation tank.";
 
-        recommendation.style.borderLeftColor = "#dc2626";
+        recommendation.style.borderLeftColor =
+            "#dc2626";
+
         recommendation.style.background =
             "linear-gradient(135deg, #fff1f2, #fee2e2)";
 
@@ -84,9 +99,9 @@ function analyzeIrrigation() {
     }
 
 
-    /* =========================
-       SOIL HAS ENOUGH MOISTURE
-    ========================= */
+    /* =========================================
+       CASE 2 — SOIL MOISTURE IS SUFFICIENT
+    ========================================= */
 
     if (soil >= threshold) {
 
@@ -100,7 +115,9 @@ function analyzeIrrigation() {
         waterAmount.textContent =
             "Recommended irrigation duration: 0 minutes.";
 
-        recommendation.style.borderLeftColor = "#16a34a";
+        recommendation.style.borderLeftColor =
+            "#16a34a";
+
         recommendation.style.background =
             "linear-gradient(135deg, #ecfdf5, #dcfce7)";
 
@@ -110,9 +127,9 @@ function analyzeIrrigation() {
     }
 
 
-    /* =========================
-       HIGH RAIN PROBABILITY
-    ========================= */
+    /* =========================================
+       CASE 3 — HIGH RAIN PROBABILITY
+    ========================================= */
 
     if (rain >= 70) {
 
@@ -126,7 +143,9 @@ function analyzeIrrigation() {
         waterAmount.textContent =
             "Recommended action: Recheck after the expected rainfall.";
 
-        recommendation.style.borderLeftColor = "#8b5cf6";
+        recommendation.style.borderLeftColor =
+            "#8b5cf6";
+
         recommendation.style.background =
             "linear-gradient(135deg, #f5f3ff, #ede9fe)";
 
@@ -136,61 +155,67 @@ function analyzeIrrigation() {
     }
 
 
-    /* =========================
-       IRRIGATION CALCULATION
-    ========================= */
+    /* =========================================
+       CASE 4 — IRRIGATION REQUIRED
+    ========================================= */
 
     const dryness = threshold - soil;
 
     let duration;
     let priority;
 
+
     if (dryness >= 20) {
 
         duration = 6;
         priority = "HIGH";
 
-    } else if (dryness >= 10) {
+    }
+
+    else if (dryness >= 10) {
 
         duration = 4;
         priority = "MEDIUM";
 
-    } else {
+    }
+
+    else {
 
         duration = 2;
         priority = "LOW";
     }
 
 
-    /* =========================
-       IRRIGATION RECOMMENDATION
-    ========================= */
+    /* =========================================
+       SHOW IRRIGATION RECOMMENDATION
+    ========================================= */
 
     recommendation.innerHTML =
         `<span class="status-check">✓</span>
          💧 IRRIGATION RECOMMENDED`;
 
     reason.textContent =
-        `Soil moisture is below the ${crop} threshold. Rain probability is only ${rain}%. Temperature is ${temperature}°C.`;
+        `Soil moisture is ${soil}%, which is below the ${crop} threshold of ${threshold}%. Rain probability is ${rain}%. Temperature is ${temperature}°C.`;
 
     waterAmount.textContent =
         `Water priority: ${priority} | Recommended pump duration: approximately ${duration} minutes.`;
 
-
-    recommendation.style.borderLeftColor = "#0ea5e9";
+    recommendation.style.borderLeftColor =
+        "#0ea5e9";
 
     recommendation.style.background =
         "linear-gradient(135deg, #ecfeff, #eff6ff)";
 
 
-    // Pump remains OFF until user manually turns it ON
+    /* Pump stays OFF until user manually turns it ON */
+
     turnPumpOff();
 }
 
 
-/* =========================
+/* =========================================
    PUMP ON
-========================= */
+========================================= */
 
 function turnPumpOn() {
 
@@ -200,6 +225,8 @@ function turnPumpOn() {
     const soil =
         Number(document.getElementById("soil").value);
 
+
+    /* Tank safety */
 
     if (tank <= 10) {
 
@@ -213,6 +240,8 @@ function turnPumpOn() {
     }
 
 
+    /* Soil safety */
+
     if (soil >= 80) {
 
         alert(
@@ -225,74 +254,167 @@ function turnPumpOn() {
     }
 
 
-    document.getElementById("pumpStatus").textContent =
+    /* Turn pump ON */
+
+    const pumpStatus =
+        document.getElementById("pumpStatus");
+
+    pumpStatus.textContent =
         "ON";
 
-    document.getElementById("pumpStatus").style.background =
+    pumpStatus.style.background =
         "#dcfce7";
 
-    document.getElementById("pumpStatus").style.color =
+    pumpStatus.style.color =
         "#15803d";
 }
 
 
-/* =========================
+/* =========================================
    PUMP OFF
-========================= */
+========================================= */
 
 function turnPumpOff() {
 
-    document.getElementById("pumpStatus").textContent =
+    const pumpStatus =
+        document.getElementById("pumpStatus");
+
+    if (!pumpStatus) {
+        return;
+    }
+
+    pumpStatus.textContent =
         "OFF";
 
-    document.getElementById("pumpStatus").style.background =
+    pumpStatus.style.background =
         "#fee2e2";
 
-    document.getElementById("pumpStatus").style.color =
+    pumpStatus.style.color =
         "#dc2626";
 }
 
 
-/* =========================
-   LIVE SENSOR DISPLAY
-========================= */
+/* =========================================
+   LIVE SOIL SENSOR
+========================================= */
 
-document.getElementById("soil")
-    .addEventListener("input", function () {
+function updateSoilDisplay() {
 
-        document.getElementById("soilValue").textContent =
-            this.value + "%";
+    const soil =
+        document.getElementById("soil").value;
 
-        document.getElementById("soilDisplay").textContent =
-            this.value + "%";
-    });
+    document.getElementById("soilValue").textContent =
+        soil + "%";
 
-
-document.getElementById("tank")
-    .addEventListener("input", function () {
-
-        document.getElementById("tankValue").textContent =
-            this.value + "%";
-
-        document.getElementById("tankDisplay").textContent =
-            this.value + "%";
-    });
+    document.getElementById("soilDisplay").textContent =
+        soil + "%";
+}
 
 
-document.getElementById("rain")
-    .addEventListener("input", function () {
+/* =========================================
+   LIVE TANK SENSOR
+========================================= */
 
-        document.getElementById("rainValue").textContent =
-            this.value + "%";
+function updateTankDisplay() {
 
-        document.getElementById("rainDisplay").textContent =
-            this.value + "%";
-    });
+    const tank =
+        document.getElementById("tank").value;
+
+    document.getElementById("tankValue").textContent =
+        tank + "%";
+
+    document.getElementById("tankDisplay").textContent =
+        tank + "%";
+}
 
 
-document.getElementById("temperature")
-    .addEventListener("input", function () {
+/* =========================================
+   LIVE RAIN SENSOR
+========================================= */
 
-        document.getElementById("tempDisplay").textContent =
-            this.value + "°C";
-    });
+function updateRainDisplay() {
+
+    const rain =
+        document.getElementById("rain").value;
+
+    document.getElementById("rainValue").textContent =
+        rain + "%";
+
+    document.getElementById("rainDisplay").textContent =
+        rain + "%";
+}
+
+
+/* =========================================
+   LIVE TEMPERATURE
+========================================= */
+
+function updateTemperatureDisplay() {
+
+    const temperature =
+        document.getElementById("temperature").value;
+
+    document.getElementById("tempDisplay").textContent =
+        temperature + "°C";
+}
+
+
+/* =========================================
+   PAGE LOAD
+========================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const soil =
+        document.getElementById("soil");
+
+    const tank =
+        document.getElementById("tank");
+
+    const rain =
+        document.getElementById("rain");
+
+    const temperature =
+        document.getElementById("temperature");
+
+
+    if (soil) {
+        soil.addEventListener(
+            "input",
+            updateSoilDisplay
+        );
+    }
+
+
+    if (tank) {
+        tank.addEventListener(
+            "input",
+            updateTankDisplay
+        );
+    }
+
+
+    if (rain) {
+        rain.addEventListener(
+            "input",
+            updateRainDisplay
+        );
+    }
+
+
+    if (temperature) {
+        temperature.addEventListener(
+            "input",
+            updateTemperatureDisplay
+        );
+    }
+
+
+    /* Initial display */
+
+    updateSoilDisplay();
+    updateTankDisplay();
+    updateRainDisplay();
+    updateTemperatureDisplay();
+
+});
