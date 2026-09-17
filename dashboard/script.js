@@ -994,3 +994,21 @@ document.addEventListener(
 
     }
 );
+/* =========================================
+   WATER SAVING ANALYTICS
+========================================= */
+
+let waterSaved = 0;
+
+function updateWaterSaving(amount) {
+
+    waterSaved += amount;
+
+    const savingValue =
+        document.querySelector(".saving-value");
+
+    if (savingValue) {
+        savingValue.textContent =
+            waterSaved + " L";
+    }
+}
