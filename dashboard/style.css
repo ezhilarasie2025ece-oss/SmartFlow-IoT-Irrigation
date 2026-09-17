@@ -1189,3 +1189,32 @@ footer {
         align-self: flex-start;
     }
 }
+
+
+
+/* =========================================
+   LANGUAGE TOGGLE
+========================================= */
+
+.language-control {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 18px;
+}
+
+.language-control button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 20px;
+    background: #0ea5e9;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.language-control button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
