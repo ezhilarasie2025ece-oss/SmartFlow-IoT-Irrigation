@@ -548,29 +548,3 @@ document.addEventListener(
 
 
 
-/* =========================================
-   LANGUAGE TOGGLE
-========================================= */
-
-let tamilMode = false;
-
-function toggleLanguage() {
-
-    tamilMode = !tamilMode;
-
-    const button =
-        document.getElementById("languageToggle");
-
-    if (tamilMode) {
-        button.textContent = "English / தமிழ்";
-
-        document.querySelector("h2").textContent =
-            "நீர்ப்பாசன கண்காணிப்பு";
-
-    } else {
-        button.textContent = "தமிழ் / English";
-
-        document.querySelector("h2").textContent =
-            "Field Monitoring";
-    }
-}
