@@ -1017,3 +1017,4 @@ function updateWaterSaving(amount) {
             waterSaved + " L";
     }
 }
+}
