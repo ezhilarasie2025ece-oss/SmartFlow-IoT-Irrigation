@@ -627,38 +627,39 @@ function analyzeIrrigation() {
     }
 
 
-/* =========================================
-   IRRIGATION RECOMMENDED
-========================================= */
+    /* =========================================
+       IRRIGATION RECOMMENDED
+    ========================================= */
 
-recommendation.dataset.state =
-    "recommended";
+    recommendation.dataset.state =
+        "recommended";
 
-updateDynamicLanguage();
+    updateDynamicLanguage();
 
-recommendation.style.borderLeftColor =
-    "#0ea5e9";
+    recommendation.style.borderLeftColor =
+        "#0ea5e9";
 
-recommendation.style.background =
-    "linear-gradient(135deg, #ecfeff, #eff6ff)";
-
-
-/* Pump stays OFF until user manually turns it ON */
-
-turnPumpOff();
+    recommendation.style.background =
+        "linear-gradient(135deg, #ecfeff, #eff6ff)";
 
 
-addHistory(
-    "Irrigation Recommended",
-    crop,
-    soil,
-    tank,
-    rain
-);
+    /* Pump stays OFF until user manually turns it ON */
 
-/* Estimated water saving for avoided/optimized irrigation */
+    turnPumpOff();
 
-updateWaterSaving(40);
+
+    addHistory(
+        "Irrigation Recommended",
+        crop,
+        soil,
+        tank,
+        rain
+    );
+
+
+    /* Estimated water saving for avoided/optimized irrigation */
+
+    updateWaterSaving(40);
 }
 
 
@@ -999,6 +1000,8 @@ document.addEventListener(
 
     }
 );
+
+
 /* =========================================
    WATER SAVING ANALYTICS
 ========================================= */
@@ -1016,5 +1019,4 @@ function updateWaterSaving(amount) {
         savingValue.textContent =
             waterSaved + " L";
     }
-}
 }
